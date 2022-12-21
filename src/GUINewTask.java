@@ -1,22 +1,36 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-package projektuitest;
-
-/**
- *
- * @author F
- */
 public class GUINewTask extends javax.swing.JFrame {
+    
+    //Globale Variablen
+    ControlGUI ControlGUI1;
 
-    /**
-     * Creates new form GUINewTask
-     */
-    public GUINewTask() {
+    //Konstruktor
+    public GUINewTask(ControlGUI aControlGUI) {
+        ControlGUI1 = aControlGUI;
         initComponents();
     }
-
+    
+    //get alle ausgewählte User
+    public String getUseres(){
+        
+        String sUsernames = txfToUser.getText();
+        return sUsernames;
+    }
+    
+    //
+    public String getSubject(){
+    String sSubject = txfSubject.getText();
+    return sSubject;
+    }
+    
+    //
+    public String getDescription(){
+    String sDescription = txaTaskDescription.getText();
+    return sDescription;
+}
+            
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,12 +41,12 @@ public class GUINewTask extends javax.swing.JFrame {
     private void initComponents() {
 
         PanelNewTaskBackground = new javax.swing.JPanel();
-        btnCloseWindow = new javax.swing.JButton();
+        btnNewTaskCancel = new javax.swing.JButton();
         scTXATaskDescription = new javax.swing.JScrollPane();
         txaTaskDescription = new javax.swing.JTextArea();
         txfSubject = new javax.swing.JTextField();
         lblSubject = new javax.swing.JLabel();
-        btnToSubject = new javax.swing.JButton();
+        btnToUser = new javax.swing.JButton();
         txfToUser = new javax.swing.JTextField();
         btnSendTask = new javax.swing.JButton();
         btnSaveTask = new javax.swing.JButton();
@@ -41,20 +55,18 @@ public class GUINewTask extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Neue Aufgaben verfassen");
-        setMaximumSize(new java.awt.Dimension(858, 480));
         setMinimumSize(new java.awt.Dimension(858, 480));
-        setPreferredSize(new java.awt.Dimension(858, 480));
 
         PanelNewTaskBackground.setBackground(new java.awt.Color(40, 40, 40));
         PanelNewTaskBackground.setMaximumSize(new java.awt.Dimension(858, 480));
         PanelNewTaskBackground.setMinimumSize(new java.awt.Dimension(858, 480));
 
-        btnCloseWindow.setBackground(new java.awt.Color(18, 110, 99));
-        btnCloseWindow.setForeground(new java.awt.Color(145, 237, 228));
-        btnCloseWindow.setText("Abbrechen");
-        btnCloseWindow.addActionListener(new java.awt.event.ActionListener() {
+        btnNewTaskCancel.setBackground(new java.awt.Color(18, 110, 99));
+        btnNewTaskCancel.setForeground(new java.awt.Color(145, 237, 228));
+        btnNewTaskCancel.setText("Abbrechen");
+        btnNewTaskCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseWindowActionPerformed(evt);
+                btnNewTaskCancelActionPerformed(evt);
             }
         });
 
@@ -71,12 +83,12 @@ public class GUINewTask extends javax.swing.JFrame {
         lblSubject.setForeground(new java.awt.Color(145, 237, 228));
         lblSubject.setText("Betreff: ");
 
-        btnToSubject.setBackground(new java.awt.Color(18, 110, 99));
-        btnToSubject.setForeground(new java.awt.Color(145, 237, 228));
-        btnToSubject.setText("An:");
-        btnToSubject.addActionListener(new java.awt.event.ActionListener() {
+        btnToUser.setBackground(new java.awt.Color(18, 110, 99));
+        btnToUser.setForeground(new java.awt.Color(145, 237, 228));
+        btnToUser.setText("An:");
+        btnToUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnToSubjectActionPerformed(evt);
+                btnToUserActionPerformed(evt);
             }
         });
 
@@ -100,6 +112,8 @@ public class GUINewTask extends javax.swing.JFrame {
         lblTimeNeeded.setForeground(new java.awt.Color(145, 237, 228));
         lblTimeNeeded.setText("Zeitaufwand in min.: ");
 
+        spZeitaufwand.setMaximumSize(new java.awt.Dimension(64, 22));
+
         javax.swing.GroupLayout PanelNewTaskBackgroundLayout = new javax.swing.GroupLayout(PanelNewTaskBackground);
         PanelNewTaskBackground.setLayout(PanelNewTaskBackgroundLayout);
         PanelNewTaskBackgroundLayout.setHorizontalGroup(
@@ -108,7 +122,7 @@ public class GUINewTask extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(btnSendTask)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCloseWindow)
+                .addComponent(btnNewTaskCancel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSaveTask)
                 .addGap(0, 0, Short.MAX_VALUE))
@@ -120,7 +134,7 @@ public class GUINewTask extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(PanelNewTaskBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelNewTaskBackgroundLayout.createSequentialGroup()
-                        .addComponent(btnToSubject)
+                        .addComponent(btnToUser)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(PanelNewTaskBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txfSubject)
@@ -139,11 +153,11 @@ public class GUINewTask extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(PanelNewTaskBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSendTask)
-                    .addComponent(btnCloseWindow)
+                    .addComponent(btnNewTaskCancel)
                     .addComponent(btnSaveTask))
                 .addGap(18, 18, 18)
                 .addGroup(PanelNewTaskBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnToSubject)
+                    .addComponent(btnToUser)
                     .addComponent(txfToUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(spZeitaufwand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblTimeNeeded))
@@ -170,59 +184,26 @@ public class GUINewTask extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnToSubjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToSubjectActionPerformed
-        // Öffne "GUIToUser", Trage in Liste lstAllUseres alle User ein die die Person berechtigt ist Aufgaben zu zu teilen.
-    }//GEN-LAST:event_btnToSubjectActionPerformed
+    private void btnToUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToUserActionPerformed
+        //GUIToUser wird sichtbar gemacht
+        ControlGUI1.setGUIToUserVisible();
+    }//GEN-LAST:event_btnToUserActionPerformed
 
-    private void btnCloseWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseWindowActionPerformed
+    private void btnNewTaskCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewTaskCancelActionPerformed
         //GUINewTask1.setVisible(false); oder noch besser etwas das das Fenster wirklich schließt.
-    }//GEN-LAST:event_btnCloseWindowActionPerformed
+        ControlGUI1.setGUINewTaskInvisible();
+    }//GEN-LAST:event_btnNewTaskCancelActionPerformed
 
     private void btnSaveTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveTaskActionPerformed
         //"txaTaskDescription","txfSubject","txfToUser" und "spZeitaufwand" auslesen und in Datenbank für User Hinterlegen
     }//GEN-LAST:event_btnSaveTaskActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUINewTask.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUINewTask.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUINewTask.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUINewTask.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUINewTask().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelNewTaskBackground;
-    private javax.swing.JButton btnCloseWindow;
+    private javax.swing.JButton btnNewTaskCancel;
     private javax.swing.JButton btnSaveTask;
     private javax.swing.JButton btnSendTask;
-    private javax.swing.JButton btnToSubject;
+    private javax.swing.JButton btnToUser;
     private javax.swing.JLabel lblSubject;
     private javax.swing.JLabel lblTimeNeeded;
     private javax.swing.JScrollPane scTXATaskDescription;

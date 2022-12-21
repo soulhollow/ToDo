@@ -1,21 +1,32 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-package projektuitest;
-
-/**
- *
- * @author F
- */
 public class GUIToUser extends javax.swing.JFrame {
-
-    /**
-     * Creates new form GUIToSubject
-     */
-    public GUIToUser() {
+    //Globale Variable
+    ControlGUI ControlGUI1;
+    
+    //Konstruktor
+    public GUIToUser(ControlGUI aControlGUI) {
+        ControlGUI1 = aControlGUI;
         initComponents();
     }
+    
+    //Die Liste aller Namen an die der User aufgaben verteilen darf eintragen (String ist nicht der richtige Datentyp)
+    public String setlstAllUsers(){
+    
+        return null;
+    }
+    
+    //in lstSelectedUsers alle neuen User eintragen (String ist nicht der richtige Datentyp)
+    public String setlstSelectedUseres(){
+       
+        return null;
+    }
+    
+    //get alle ausgewählten User (String ist nicht der richtige Datentyp)
+    public String getlstSelectedUseres(){
+        
+        return null;
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,9 +50,7 @@ public class GUIToUser extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mitarbeiter oder Dienstleister auswählen");
         setAlwaysOnTop(true);
-        setMaximumSize(new java.awt.Dimension(854, 480));
         setMinimumSize(new java.awt.Dimension(854, 480));
-        setPreferredSize(new java.awt.Dimension(854, 480));
 
         jPanel1.setBackground(new java.awt.Color(40, 40, 40));
         jPanel1.setMaximumSize(new java.awt.Dimension(854, 480));
@@ -121,7 +130,7 @@ public class GUIToUser extends javax.swing.JFrame {
                                 .addGap(18, 18, 18))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnEntfernen)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addComponent(scpLSTSelcetedUseres, javax.swing.GroupLayout.PREFERRED_SIZE, 373, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -163,8 +172,11 @@ public class GUIToUser extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAbbrechenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbbrechenActionPerformed
+        
+        //GUIToUser unsichtbar machen;  
+        ControlGUI1.setGUIToUserInvisible();
+        
         //GUIToUser unsichtbar machen und keine Namen in "GUINewTask.txfToSubject" eintragen
-        //GUIToUser.setVisible(true);  
     }//GEN-LAST:event_btnAbbrechenActionPerformed
 
     private void btnAnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnActionPerformed
@@ -172,49 +184,16 @@ public class GUIToUser extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAnActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-        //GUIToUser unsichtbar machen und Namen in "GUINewTask.txfToSubject" eintragen
-        //GUIToUser.setVisible(true);  
+        
+        //GUIToUser unsichtbar machen;  
+        ControlGUI1.setGUIToUserInvisible();
+        //GUIToUser Namen in "GUINewTask.txfToSubject" eintragen
+        
     }//GEN-LAST:event_btnOKActionPerformed
 
     private void btnEntfernenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntfernenActionPerformed
         //Selected Listen Elemente aus "lstSelectedUseres" in "lstSelectedUseres" entfernen
     }//GEN-LAST:event_btnEntfernenActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUIToUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUIToUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUIToUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUIToUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUIToUser().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbbrechen;

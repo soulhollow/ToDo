@@ -1,14 +1,10 @@
-package projektuitest;
-
-//@author Florian G
-
 public class GUILogin extends javax.swing.JFrame {
+    ControlGUI ControlGUI1;
 
-    /**
-     * Creates new form UILogin
-     */
-    public GUILogin() {
+    public GUILogin(ControlGUI aControlGUI) {
+        ControlGUI1 = aControlGUI;
         initComponents();
+        
     }
 
     /**
@@ -46,6 +42,11 @@ public class GUILogin extends javax.swing.JFrame {
         btnLogin.setBackground(new java.awt.Color(18, 110, 99));
         btnLogin.setForeground(new java.awt.Color(145, 237, 228));
         btnLogin.setText("Login");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
 
         txfUsername.setBackground(new java.awt.Color(18, 110, 99));
         txfUsername.setForeground(new java.awt.Color(145, 237, 228));
@@ -62,11 +63,6 @@ public class GUILogin extends javax.swing.JFrame {
         txfPassword.setMaximumSize(new java.awt.Dimension(250, 22));
         txfPassword.setMinimumSize(new java.awt.Dimension(250, 22));
         txfPassword.setPreferredSize(new java.awt.Dimension(250, 22));
-        txfPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txfPasswordActionPerformed(evt);
-            }
-        });
 
         lblProgrammName.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         lblProgrammName.setForeground(new java.awt.Color(145, 237, 228));
@@ -150,49 +146,21 @@ public class GUILogin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txfPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txfPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txfPasswordActionPerformed
-
     private void btnEXITActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEXITActionPerformed
         System.exit(0);
     }//GEN-LAST:event_btnEXITActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUILogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUILogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUILogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUILogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        //wenn Passwort richtig ist dann soll das hier "GUITaskAnsicht" mit einem setter sichtbar machen
+        
+        boolean bPwRichtig = true; // bPwRiochtig muss noch angepasst werden. und in db gecheckt werden.
+        if(bPwRichtig==true){
+            ControlGUI1.setTaskAnsichtVisible();
+            ControlGUI1.setGUILoginInvisible();
+        }else{
+            
         }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUILogin().setVisible(true);
-            }
-        });
-    }
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PannelLoginBackground;

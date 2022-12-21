@@ -1,15 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package projektuitest;
-
 import java.sql.SQLException;
 
-/**
- *
- * @author florianruffnFer
- */
 public class DB_abfrage {
     
     DB_Connection dp_connection = new DB_Connection();
