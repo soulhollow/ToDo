@@ -5,12 +5,5 @@ public class Main {
         public static void main(String[] args) {
             //Hier die Controleinheiten erstellen
             ControlGUI1 = new ControlGUI();
-        
-        
-        
-        
-        
-        
-
         }
 }
