@@ -1,3 +1,6 @@
+
+package com.mycompany.raptortodo;
+
 public class GUILogin extends javax.swing.JFrame {
     //
     ControlGUI ControlGUI1;
@@ -11,8 +14,8 @@ public class GUILogin extends javax.swing.JFrame {
     
     //Hier könnte eine Exception entstehen wenn der User Leer ist
     public String getUser(){
-        String User = txfUsername.getText();
-        return User;
+        String sUser = txfUsername.getText();
+        return sUser;
     }
     
     public void resetUser(){
@@ -74,7 +77,6 @@ public class GUILogin extends javax.swing.JFrame {
         txfPassword.setBackground(new java.awt.Color(18, 110, 99));
         txfPassword.setForeground(new java.awt.Color(145, 237, 228));
         txfPassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txfPassword.setText("Hier könnte ihr Username stehen");
         txfPassword.setMaximumSize(new java.awt.Dimension(250, 22));
         txfPassword.setMinimumSize(new java.awt.Dimension(250, 22));
         txfPassword.setPreferredSize(new java.awt.Dimension(250, 22));
@@ -168,7 +170,9 @@ public class GUILogin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEXITActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        
         ControlGUI1.loginLoginBtn();
+
     }//GEN-LAST:event_btnLoginActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

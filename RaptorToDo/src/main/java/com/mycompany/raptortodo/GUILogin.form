@@ -159,7 +159,6 @@
               <Color blue="e4" green="ed" red="91" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="Hier k&#xf6;nnte ihr Username stehen"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[250, 22]"/>
             </Property>

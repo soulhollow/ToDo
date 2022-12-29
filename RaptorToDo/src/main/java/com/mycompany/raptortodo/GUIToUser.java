@@ -1,3 +1,5 @@
+//author florian.gorshoefer
+package com.mycompany.raptortodo;
 public class GUIToUser extends javax.swing.JFrame {
     //Globale Variable
     ControlGUI ControlGUI1;
@@ -183,7 +185,7 @@ public class GUIToUser extends javax.swing.JFrame {
         //GUIToUser unsichtbar machen;  
         ControlGUI1.setGUIToUserInvisible();
         //GUIToUser Namen in "GUINewTask.txfToSubject" eintragen
-        ControlGUI1.uebernehmeSelectedUserNachNewTask();
+        //ControlGUI1.uebernehmeSelectedUserNachNewTask();
     }//GEN-LAST:event_btnOKActionPerformed
 
     private void btnEntfernenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntfernenActionPerformed

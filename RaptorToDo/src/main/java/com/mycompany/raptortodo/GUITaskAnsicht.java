@@ -1,5 +1,8 @@
+//author florian.gorshoefer
+package com.mycompany.raptortodo;
 public class GUITaskAnsicht extends javax.swing.JFrame {
     ControlGUI ControlGUI1;
+    Brain brain;
     //Konstruktor
     public GUITaskAnsicht(ControlGUI aControlGUI) {
         ControlGUI1 = aControlGUI;
@@ -29,18 +32,36 @@ public class GUITaskAnsicht extends javax.swing.JFrame {
     
     //Setzt die Eingeschätzte Zeit auf den Wert der in der DB steht
     public void setEstimatedTime(int iEstimatedTime){
-        txfEingeschätzteZeit.setText(iEstimatedTime+"");
+        if(iEstimatedTime != 0){
+            txfEingeschätzteZeit.setText(iEstimatedTime+"");
+        }else{
+            txfEingeschätzteZeit.setText("");
+        }
+        
     }
     
     //Liste wird in die Taskübersicht eingetragen
     public void setlstAllTasks(String[] listData){
         lstAllTasks.setListData(listData);
     }
+    
     //Setzt die TaskDescription auf die Ausgewählte Task
     public void setTaskDescription(String sTaskDescription){
         txaTaskDescription.setText(sTaskDescription);
     }
-
+    public void setTxfTatsaechlicheZeit(int iTime){
+        //Ich geh mal einfach davon aus das es keine Task gibt die 0 Minuten brauchen. Wär ja sonst Sinnlos
+        if(iTime !=0){
+            txfTatsaechlicheZeit.setText(iTime+"");
+        }else{
+            txfTatsaechlicheZeit.setText("");
+        }
+        
+    }
+    //bekommt das selektierte Feld zurück
+    public int getListAllTasksSelection(){
+        return lstAllTasks.getSelectedIndex();
+    }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -56,7 +77,7 @@ public class GUITaskAnsicht extends javax.swing.JFrame {
         scpLSTAllTasks = new javax.swing.JScrollPane();
         lstAllTasks = new javax.swing.JList<>();
         btnShowTask = new javax.swing.JButton();
-        btnQuestion = new javax.swing.JButton();
+        btnaction = new javax.swing.JButton();
         lblVonUser = new javax.swing.JLabel();
         lblEingeschätzteZeit = new javax.swing.JLabel();
         txfVonUser = new javax.swing.JTextField();
@@ -64,10 +85,10 @@ public class GUITaskAnsicht extends javax.swing.JFrame {
         txfTatsaechlicheZeit = new javax.swing.JTextField();
         lblTatsaechlicheZeit = new javax.swing.JLabel();
         btnLogout = new javax.swing.JButton();
+        btnBenutzerErstellen = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("[Programm Name] Meine Aufgaben");
-        setMaximumSize(new java.awt.Dimension(1024, 580));
         setMinimumSize(new java.awt.Dimension(1024, 580));
 
         PanelTaskBackground.setBackground(new java.awt.Color(40, 40, 40));
@@ -137,12 +158,12 @@ public class GUITaskAnsicht extends javax.swing.JFrame {
             }
         });
 
-        btnQuestion.setBackground(new java.awt.Color(18, 110, 99));
-        btnQuestion.setForeground(new java.awt.Color(145, 237, 228));
-        btnQuestion.setText("Frage");
-        btnQuestion.addActionListener(new java.awt.event.ActionListener() {
+        btnaction.setBackground(new java.awt.Color(18, 110, 99));
+        btnaction.setForeground(new java.awt.Color(145, 237, 228));
+        btnaction.setText("Bearbeiten");
+        btnaction.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnQuestionActionPerformed(evt);
+                btnactionActionPerformed(evt);
             }
         });
 
@@ -183,6 +204,15 @@ public class GUITaskAnsicht extends javax.swing.JFrame {
             }
         });
 
+        btnBenutzerErstellen.setBackground(new java.awt.Color(18, 110, 99));
+        btnBenutzerErstellen.setForeground(new java.awt.Color(145, 237, 228));
+        btnBenutzerErstellen.setText("Benutzer Erstellen");
+        btnBenutzerErstellen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBenutzerErstellenActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout PanelTaskBackgroundLayout = new javax.swing.GroupLayout(PanelTaskBackground);
         PanelTaskBackground.setLayout(PanelTaskBackgroundLayout);
         PanelTaskBackgroundLayout.setHorizontalGroup(
@@ -209,24 +239,28 @@ public class GUITaskAnsicht extends javax.swing.JFrame {
                                         .addGroup(PanelTaskBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(PanelTaskBackgroundLayout.createSequentialGroup()
                                                 .addComponent(btnShowTask)
-                                                .addGap(0, 0, Short.MAX_VALUE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(btnBenutzerErstellen)
+                                                .addGap(0, 281, Short.MAX_VALUE))
                                             .addGroup(PanelTaskBackgroundLayout.createSequentialGroup()
                                                 .addGap(71, 71, 71)
-                                                .addComponent(txfVonUser)))
+                                                .addComponent(txfVonUser, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                                .addGroup(PanelTaskBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnLogout, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(lblEingeschätzteZeit, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addGap(18, 18, 18)
-                                .addGroup(PanelTaskBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnTaskAnsichtExit)
-                                    .addComponent(txfEingeschätzteZeit, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(PanelTaskBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addGroup(PanelTaskBackgroundLayout.createSequentialGroup()
+                                        .addComponent(lblEingeschätzteZeit)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txfEingeschätzteZeit, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(PanelTaskBackgroundLayout.createSequentialGroup()
+                                        .addComponent(btnLogout)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(btnTaskAnsichtExit))))
                             .addComponent(scpTXATaskDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTaskBackgroundLayout.createSequentialGroup()
                         .addGroup(PanelTaskBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PanelTaskBackgroundLayout.createSequentialGroup()
-                                .addComponent(btnQuestion)
+                                .addComponent(btnaction)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelTaskBackgroundLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -249,7 +283,8 @@ public class GUITaskAnsicht extends javax.swing.JFrame {
                     .addComponent(btnMyTasks)
                     .addComponent(btnTaskAnsichtExit)
                     .addComponent(btnShowTask)
-                    .addComponent(btnLogout))
+                    .addComponent(btnLogout)
+                    .addComponent(btnBenutzerErstellen))
                 .addGap(18, 18, 18)
                 .addGroup(PanelTaskBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(PanelTaskBackgroundLayout.createSequentialGroup()
@@ -259,7 +294,7 @@ public class GUITaskAnsicht extends javax.swing.JFrame {
                             .addComponent(lblEingeschätzteZeit)
                             .addComponent(txfEingeschätzteZeit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(scpTXATaskDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+                        .addComponent(scpTXATaskDescription, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(PanelTaskBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txfTatsaechlicheZeit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -267,7 +302,7 @@ public class GUITaskAnsicht extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(PanelTaskBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnTaskFinish)
-                            .addComponent(btnQuestion)))
+                            .addComponent(btnaction)))
                     .addComponent(scpLSTAllTasks))
                 .addContainerGap())
         );
@@ -304,12 +339,13 @@ public class GUITaskAnsicht extends javax.swing.JFrame {
         ControlGUI1.btnMyTaskRefresh();
     }//GEN-LAST:event_btnMyTasksActionPerformed
 
-    private void btnQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuestionActionPerformed
-        ControlGUI1.openNewTaskbtnQuestion();
-    }//GEN-LAST:event_btnQuestionActionPerformed
+    private void btnactionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnactionActionPerformed
+        ControlGUI1.taskBearbeitenBtn();
+        
+    }//GEN-LAST:event_btnactionActionPerformed
 
     private void btnTaskFinishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaskFinishActionPerformed
-        ControlGUI1.taskFinisBtnTaskAnsicht();
+        ControlGUI1.taskFinishBtnTaskAnsicht();
     }//GEN-LAST:event_btnTaskFinishActionPerformed
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogoutActionPerformed
@@ -328,15 +364,21 @@ public class GUITaskAnsicht extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txfVonUserActionPerformed
 
+    private void btnBenutzerErstellenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBenutzerErstellenActionPerformed
+        // TODO add your handling code here:
+        ControlGUI1.OpenbenutzerErstellen();
+    }//GEN-LAST:event_btnBenutzerErstellenActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PanelTaskBackground;
+    private javax.swing.JButton btnBenutzerErstellen;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnMyTasks;
     private javax.swing.JButton btnNewTask;
-    private javax.swing.JButton btnQuestion;
     private javax.swing.JButton btnShowTask;
     private javax.swing.JButton btnTaskAnsichtExit;
     private javax.swing.JButton btnTaskFinish;
+    private javax.swing.JButton btnaction;
     private javax.swing.ButtonGroup btngFinishQuestion;
     private javax.swing.JLabel lblEingeschätzteZeit;
     private javax.swing.JLabel lblTatsaechlicheZeit;

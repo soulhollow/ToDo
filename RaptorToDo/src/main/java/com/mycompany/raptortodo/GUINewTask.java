@@ -1,3 +1,6 @@
+//author florian.gorshoefer
+
+package com.mycompany.raptortodo;
 public class GUINewTask extends javax.swing.JFrame {
     
     //Globale Variablen
@@ -10,33 +13,52 @@ public class GUINewTask extends javax.swing.JFrame {
     }
     
     //get alle ausgewählte User hintereinander als String
-    public String getUseres(){
+    public String[] getUseres(){
         String sUsernames = txfToUser.getText();
-        return sUsernames;
+        String[] parts = sUsernames.split(" ");
+        return parts;
     }
     
     //setzt die User aus dem An Feld
-    public void setUsers(String sUsers){
-        txfToUser.setText(sUsers);
+    public void setUsers(String[] sUsers){
+        String all = "";
+        for (int i = 0; i < sUsers.length; i++) {
+            all = all + sUsers[i];
+            all = all + " ";
+        }
+        txfToUser.setText(all);
+        
     }
     
     //bekommt den Betreff als String
     public String getSubject(){
-    String sSubject = txfSubject.getText();
-    return sSubject;
+        String sSubject = txfSubject.getText();
+        return sSubject;
+    }
+    
+    public void setSubject(String subject ){
+        txfSubject.setText(subject);
+    }
+    
+    public void setDescription(String description){
+        txaTaskDescription.setText(description);
     }
     
     //bekommt die Task Beschreibung als String
     public String getDescription(){
-    String sDescription = txaTaskDescription.getText();
-    return sDescription;
+        String sDescription = txaTaskDescription.getText();
+        return sDescription;
     }
     
     //bekommt den Zeitaufwand in Minuten als String und Wandelt in Integer um für kleineres Datenvolumen
     public int getZeitaufwand(){
         int iZeitaufwand = Integer.parseInt(txfZeitaufwand.getText());
         return iZeitaufwand;
-    }   
+    }  
+    
+    public void setZeitaufwand(int zeit){
+        txfZeitaufwand.setText(""+zeit);
+    }
     
     //Um die ganzen Textfelder halt leer zu machen lol
     public void resetUsers(){
@@ -174,10 +196,11 @@ public class GUINewTask extends javax.swing.JFrame {
             PanelNewTaskBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelNewTaskBackgroundLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(PanelNewTaskBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSendTask)
-                    .addComponent(btnNewTaskCancel)
-                    .addComponent(btnSaveTask))
+                .addGroup(PanelNewTaskBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnNewTaskCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(PanelNewTaskBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnSendTask)
+                        .addComponent(btnSaveTask)))
                 .addGap(18, 18, 18)
                 .addGroup(PanelNewTaskBackgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnToUser)
@@ -227,6 +250,7 @@ public class GUINewTask extends javax.swing.JFrame {
 
     private void btnSendTaskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendTaskActionPerformed
         ControlGUI1.sendTask();
+        
     }//GEN-LAST:event_btnSendTaskActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

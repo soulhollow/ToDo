@@ -8,9 +8,6 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" value="[Programm Name] Meine Aufgaben"/>
-    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[1024, 580]"/>
-    </Property>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[1024, 580]"/>
     </Property>
@@ -88,24 +85,29 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" attributes="0">
                                                   <Component id="btnShowTask" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                                  <EmptySpace max="-2" attributes="0"/>
+                                                  <Component id="btnBenutzerErstellen" min="-2" max="-2" attributes="0"/>
+                                                  <EmptySpace min="0" pref="281" max="32767" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <EmptySpace min="-2" pref="71" max="-2" attributes="0"/>
-                                                  <Component id="txfVonUser" max="32767" attributes="0"/>
+                                                  <Component id="txfVonUser" pref="462" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btnLogout" alignment="1" min="-2" max="-2" attributes="0"/>
-                                      <Component id="lblEingeschätzteZeit" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="btnTaskAnsichtExit" min="-2" max="-2" attributes="0"/>
-                                      <Component id="txfEingeschätzteZeit" alignment="1" min="-2" pref="72" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="lblEingeschätzteZeit" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="txfEingeschätzteZeit" min="-2" pref="72" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="btnLogout" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="btnTaskAnsichtExit" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                               </Group>
                               <Component id="scpTXATaskDescription" pref="734" max="32767" attributes="0"/>
@@ -115,7 +117,7 @@
                       <Group type="102" alignment="1" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="btnQuestion" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnaction" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
@@ -149,6 +151,7 @@
                       <Component id="btnTaskAnsichtExit" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnShowTask" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnLogout" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnBenutzerErstellen" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -160,7 +163,7 @@
                               <Component id="txfEingeschätzteZeit" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="scpTXATaskDescription" pref="424" max="32767" attributes="0"/>
+                          <Component id="scpTXATaskDescription" pref="412" max="32767" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="txfTatsaechlicheZeit" alignment="3" max="-2" attributes="0"/>
@@ -169,7 +172,7 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnTaskFinish" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnQuestion" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnaction" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="scpLSTAllTasks" max="32767" attributes="0"/>
@@ -304,7 +307,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnShowTaskActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="btnQuestion">
+        <Component class="javax.swing.JButton" name="btnaction">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="63" green="6e" red="12" type="rgb"/>
@@ -312,10 +315,10 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="e4" green="ed" red="91" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Frage"/>
+            <Property name="text" type="java.lang.String" value="Bearbeiten"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnQuestionActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnactionActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblVonUser">
@@ -400,6 +403,20 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLogoutActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnBenutzerErstellen">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="63" green="6e" red="12" type="rgb"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="e4" green="ed" red="91" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Benutzer Erstellen"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBenutzerErstellenActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
