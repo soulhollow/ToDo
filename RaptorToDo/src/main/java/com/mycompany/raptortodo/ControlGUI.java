@@ -1,5 +1,6 @@
 package com.mycompany.raptortodo;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -9,17 +10,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-//import java.util.ArrayList;
-//import java.util.Collection;
 public class ControlGUI {
 
     //Deklarieren von Variablen
-    private GUITaskAnsicht GUITaskAnsicht1;
+    private GUITaskView GUITaskAnsicht1;
     private GUINewTask GUINewTask1;
     private GUIToUser GUIToUser1;
     private GUILogin GUILogin1;
-    private GUIBenutzerErstellen GUIBenutzerErstellen1;
-    private GUIChangePassword GUIChangePassword1;
+    private GUIAccount GUIAccount1;
 
     private String username;
     private String password;
@@ -41,17 +39,15 @@ public class ControlGUI {
             GUILogin1.setVisible(true);
 
             //Erstellt alle anderen GUI Elemente
-            GUITaskAnsicht1 = new GUITaskAnsicht(this);
+            GUITaskAnsicht1 = new GUITaskView(this);
             GUINewTask1 = new GUINewTask(this);
             GUIToUser1 = new GUIToUser(this);
-            GUIBenutzerErstellen1 = new GUIBenutzerErstellen(this);
-            GUIChangePassword1 = new GUIChangePassword(this);
+            GUIAccount1 = new GUIAccount(this);
             //macht alle anderen GUIElemente Standartmäßig Unsichtbar
             GUITaskAnsicht1.setVisible(false);
             GUINewTask1.setVisible(false);
             GUIToUser1.setVisible(false);
-            GUIBenutzerErstellen1.setVisible(false);
-            GUIChangePassword1.setVisible(false);
+            GUIAccount1.setVisible(false);
             this.brain = new Brain();
         } catch (Exception ex) {
             Logger.getLogger(ControlGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -59,20 +55,22 @@ public class ControlGUI {
     }
 
     //setter um die verschiedene GUI Elemente sichtbar/unsichtbar zu schalten
-    public void setTaskAnsichtVisible() {
+    public void setTaskViewVisible() {
         GUITaskAnsicht1.setVisible(true);
     }
 
-    public void setTaskAnsichtInvisible() {
+    public void setTaskViewInvisible() {
         GUITaskAnsicht1.setVisible(false);
     }
 
-    public void setGUIChangePasswordVisible() {
-        GUIChangePassword1.setVisible(true);
+    public void setGUIAccountInvisible() {
+
+        GUIAccount1.setVisible(false);
     }
 
-    public void setGUIChangePasswordInvisible() {
-        GUIChangePassword1.setVisible(false);
+    public void setGUIAccountVisible() {
+
+        GUIAccount1.setVisible(true);
     }
 
     public void setGUILoginVisible() {
@@ -113,17 +111,17 @@ public class ControlGUI {
         try {
             username = GUILogin1.getUser();
             password = GUILogin1.getPassword();
-            if (brain.checkKey(username, password)&& !username.isBlank()) {
-                this.setTaskAnsichtVisible();
+            if (brain.checkKey(username, password) &&  ! username.isBlank()) {
+                this.setTaskViewVisible();
                 this.setGUILoginInvisible();
                 this.worker1 = new Worker(username);
                 setlstAllTasks();
-            } else {
+            }else {
                 GUILogin1.resetUser();
                 GUILogin1.resetPassword();
-                JOptionPane.showMessageDialog(GUILogin1, "Der Benutzername und/oder das Passwort sind falsch.");
+                JOptionPane.showMessageDialog(GUILogin1, "Der Benutzername oder Passwort sind falsch.");
             }
-        } catch (Exception e) {
+        } catch (HeadlessException e) {
         }
 
     }
@@ -131,37 +129,38 @@ public class ControlGUI {
     // GUIChangePassword Funktionzugriffe
     public void ChangePasswordBtn() {
 
-        username = GUIChangePassword1.getUsername();
-        password = GUIChangePassword1.getOldPassword();
-        newPassword = GUIChangePassword1.getNewPassword();
-        repeatNewPassword = GUIChangePassword1.getNewPasswordRepeat();
-        if (newPassword.equals(repeatNewPassword)) {
-            worker1.setPassword(newPassword);
-            GUIChangePassword1.GUIChangePasswordClearAll();
-            setGUIChangePasswordInvisible();
-            JOptionPane.showMessageDialog(GUIChangePassword1, "Passwort erfolgreich geändert. Sie werden nun abgemeldet.");
-            GUILogin1.setUser(worker1.getUsername());
-            logoutBtnTaskAnsicht();
+        username = GUIAccount1.getUsername();
+        password = GUIAccount1.getOldPassword();
+        newPassword = GUIAccount1.getNewPassword();
+        repeatNewPassword = GUIAccount1.getNewPasswordRepeat();
 
-        } else {
-            JOptionPane.showMessageDialog(GUIToUser1, "Die Passwörter stimmen nicht überein.");
+        if (( newPassword.isBlank() ) && ( password.isBlank() )) {
+            JOptionPane.showMessageDialog(GUIAccount1, "Passwortfelder wurden nicht beschrieben.");
 
+        }else {
+            
+            if (repeatNewPassword.equals(newPassword) &&  !( newPassword.isBlank() ) && !( password.isBlank() )) {
+                worker1.setPassword(newPassword);
+                GUIAccount1.GUIAccountPasswordClearAll();
+                GUIAccount1.GUIAccountBenutzerClearALL();
+                setGUIAccountInvisible();
+                JOptionPane.showMessageDialog(GUIAccount1, "Passwort erfolgreich geändert. Sie werden nun abgemeldet.");
+                GUILogin1.setUser(worker1.getUsername());
+                logoutBtn();
+
+            }else {
+                JOptionPane.showMessageDialog(GUIAccount1, "Die Passwörter stimmen nicht überein.");
+
+            }
         }
     }
 
-    public void GUIChangePasswordsetUsername() {
-        GUIChangePassword1.setUsername(worker1.getUsername());
+    public void PasswordsetUsername() {
+        GUIAccount1.setUsername(worker1.getUsername());
     }
 
-    // GUITaskansicht Funktionzugriffe
-    //setzt das Feld von User in der Detail Ansicht
-    public void setVonUser(String sUser) {
-        GUITaskAnsicht1.setVonUser(sUser);
-    }
-
-    //setzt das Feld der eingeschätzten AUfgabenzeit in der Detailansicht
-    public void setEstimatedTime(int iEstimatedTime) {
-        GUITaskAnsicht1.setEstimatedTime(iEstimatedTime);
+    public void setVonUserTime( String sUser, int iEstimatedTime ) {
+        GUITaskAnsicht1.setVonUserTime(sUser, iEstimatedTime);
     }
 
     //setzt die Taskübersicht Liste
@@ -170,10 +169,10 @@ public class ControlGUI {
         taskarr2 = worker1.fillTasksStatus2();
         String[] taskSubjects1 = new String[taskarr1.length];
         String[] taskSubjects2 = new String[taskarr2.length];
-        for (int i = 0; i < taskarr1.length; i++) {
+        for (int i = 0; i < taskarr1.length; i ++) {
             taskSubjects1[i] = taskarr1[i].getTaskSubject();
         }
-        for (int i = 0; i < taskarr2.length; i++) {
+        for (int i = 0; i < taskarr2.length; i ++) {
             taskSubjects2[i] = taskarr2[i].getTaskSubject();
         }
         GUITaskAnsicht1.setlstAllTasks1(taskSubjects1);
@@ -193,14 +192,13 @@ public class ControlGUI {
     }
 
     //String muss schon Formatiert sein mit Zeilenumbrüchen
-    public void setTaskDescription(String sTaskDescription) {
+    public void setTaskDescription( String sTaskDescription ) {
         GUITaskAnsicht1.setTaskDescription(sTaskDescription);
     }
 
     //leert die TaskAnsichtFelder
     public void emptyTaskAnsicht() {
-        this.setVonUser("");
-        this.setEstimatedTime(0);
+        this.setVonUserTime("", 0);
         this.setTaskDescription("");
         this.setlstAllTasksEmpty();
         GUITaskAnsicht1.setTxfTatsaechlicheZeit(0);
@@ -228,9 +226,8 @@ public class ControlGUI {
             sTaskDescription = this.task1.getDescription();
             iEstimatedTime = this.task1.getEstimatedTime();
 
-            GUITaskAnsicht1.setEstimatedTime(iEstimatedTime);
             GUITaskAnsicht1.setTaskDescription(sTaskDescription);
-            GUITaskAnsicht1.setVonUser(sUser);
+            GUITaskAnsicht1.setVonUserTime(sUser, iEstimatedTime);
         }
         if (GUITaskAnsicht1.istSelected2()) {
             iWhichTask = GUITaskAnsicht1.getListAllTasksSelection2();
@@ -242,11 +239,10 @@ public class ControlGUI {
             sTaskDescription = this.task1.getTaskSubject();
             iEstimatedTime = this.task1.getEstimatedTime();
 
-            GUITaskAnsicht1.setEstimatedTime(iEstimatedTime);
             GUITaskAnsicht1.setTaskDescription(sTaskDescription);
-            GUITaskAnsicht1.setVonUser(sUser);
+            GUITaskAnsicht1.setVonUserTime(sUser, iEstimatedTime);
         }
-        if (!GUITaskAnsicht1.istSelected2() && !GUITaskAnsicht1.istSelected1()) {
+        if ( ! GUITaskAnsicht1.istSelected2() &&  ! GUITaskAnsicht1.istSelected1()) {
             JOptionPane.showMessageDialog(GUIToUser1, "Wähle eine Task aus.");
         }
     }
@@ -260,10 +256,13 @@ public class ControlGUI {
     }
 
     //Alle Felder und GUI´s werden geleert. Dann kann neu eingeloggt werden.
-    public void logoutBtnTaskAnsicht() {
+    public void logoutBtn() {
 
         //erstmal alles Unsichtbar machen für den Benutzer
-        this.setTaskAnsichtInvisible();
+        this.setTaskViewInvisible();
+        this.setGUIAccountInvisible();
+        this.setGUINewTaskInvisible();
+        this.setGUINewTaskInvisible();
 
         //dann alle GUI Elemente leeren
         //Task ansicht
@@ -279,7 +278,7 @@ public class ControlGUI {
         String[] sEmpty = new String[0];
         this.setlstSelectedUseres(sEmpty);
         this.setlstAllUsers(sEmpty);
-
+        GUINewTask1.resetAll();
         //last but not least das Brain zurücksetzen da fehlt noch zeugs?
         //einen Anmelde Screen wieder sichtbar machen.
         this.setGUILoginVisible();
@@ -290,16 +289,15 @@ public class ControlGUI {
     public void taskFinishBtnTaskAnsicht() {
         showTaskBtn();
         if (GUITaskAnsicht1.getBearbeitungszeit() == -1) {
-            JOptionPane.showMessageDialog(GUIToUser1, "Bitte tragen sie ein wiel lange sie gebarucht haben.");
-        } else {
-            showTaskBtn();
+            JOptionPane.showMessageDialog(GUIToUser1, "Bitte tragen sie ihre Arbeitszeit ein.");
+        }else {
             this.task1.setStatus(3, worker1.getiDWorker());
             this.task1.setUsedTime(GUITaskAnsicht1.getBearbeitungszeit(), worker1.getiDWorker());
             btnMyTaskRefresh();
-            GUITaskAnsicht1.setEstimatedTime(0);
             GUITaskAnsicht1.setTaskDescription("");
-            GUITaskAnsicht1.setVonUser("");
+            GUITaskAnsicht1.setVonUserTime("", 0);
             GUITaskAnsicht1.setTxfTatsaechlicheZeit(0);
+            SaveInvoice();
         }
     }
 
@@ -320,11 +318,11 @@ public class ControlGUI {
         var WorkerSalary = String.valueOf(worker1.getSalary());
         var WorkerPostition = String.valueOf(worker1.getPosition());
 
-        double cost = (worker1.getSalary() / 60) * task1.getUsedTime(worker1.getiDWorker());
+        double cost = ( worker1.getSalary() / 60 ) * task1.getUsedTime(worker1.getiDWorker());
         String costString = String.valueOf(cost);
 
         String[][] data = {
-            {"Worker ID", "First Name", "Name", "E-Mail", "Salary per h", "Position Worker", "Task ID", "Task Creator", "Task Subject", "Task Description", "Estimated time for Task in minutes", "Time used for Task in minutes", "Cost in Euro"},
+            {"Arbeiter ID", "Vorname", "Nachname", "E-Mail", "Gehalt in Stunden", "Position", "Aufgaben ID", "Aufgaben Ersteller", "Aufgaben Betreff", "Aufgaben Beschreibung", "Zeit für die Aufgabe in Minuten", "Arbeitszeit des Mitarbeiters", "Kosten für diese Aufgabe"},
             {WorkerID, WorkerFirstName, WorkerName, WorkerEmail, WorkerSalary, WorkerPostition, IDTask, TaskCreator, TaskSubect, TaskDescription, TaskEstimatedTime, TaskUsedTime, costString}
         };
         writer1.writeToFile(data);
@@ -379,7 +377,7 @@ public class ControlGUI {
         int[] iD_User = new int[GUINewTask1.getUser().length];
         Worker worker;
 
-        for (int i = 0; i < GUINewTask1.getUser().length; i++) {
+        for (int i = 0; i < GUINewTask1.getUser().length; i ++) {
             worker = new Worker(GUINewTask1.getUser()[i]);
 
             iD_User[i] = worker.getiDWorker();
@@ -389,13 +387,13 @@ public class ControlGUI {
     }
 
     //GUIToUser Funktionszugriffe
-    //Setzt alle USer die von der PErson aufgaben bekommen können in eine Liste
-    public void setlstAllUsers(String[] sAllUsers) {
+    //Setzt alle User die von der Person aufgaben bekommen können in eine Liste
+    public void setlstAllUsers( String[] sAllUsers ) {
         GUIToUser1.setlstAllUsers(sAllUsers);
     }
 
     //Setzt alle Selected Users in die andere Liste
-    public void setlstSelectedUseres(String[] sSelectedUsers) {
+    public void setlstSelectedUseres( String[] sSelectedUsers ) {
         GUIToUser1.setlstSelectedUseres(sSelectedUsers);
     }
 
@@ -424,15 +422,14 @@ public class ControlGUI {
         if (aAllUSersSelected.length > 1) {
             String[] newAllSelectedUsers = new String[aAllUSersSelected.length - 1];
             int f = 0;
-            for (int l = 0; l < aAllUSersSelected.length; l++) {
-
-                if (!aUserToRemove.equals(aAllUSersSelected[l])) {
-                    newAllSelectedUsers[f] = aAllUSersSelected[l];
-                    f++;
+            for (String aAllUSersSelected1 : aAllUSersSelected) {
+                if ( ! aUserToRemove.equals(aAllUSersSelected1)) {
+                    newAllSelectedUsers[f] = aAllUSersSelected1;
+                    f ++;
                 }
             }
             this.setlstSelectedUseres(newAllSelectedUsers);
-        } else {
+        }else {
             this.setSelectedUsersEmpty();
         }
 
@@ -442,11 +439,11 @@ public class ControlGUI {
     public void btnAnFunktion() {
         List<String> newlySelected = new LinkedList<>(Arrays.asList(getSelectedUsersAll()));
         for (String user : getlstAllUseresSelected()) {
-            if (!newlySelected.contains(user)) {
+            if ( ! newlySelected.contains(user)) {
                 newlySelected.add(user);
             }
         }
-        setlstSelectedUseres(newlySelected.toArray(String[]::new));
+        setlstSelectedUseres(newlySelected.toArray(String[] :: new));
     }
 
     //schreibt aus GUIToUser die ausgewählten User in die GUINewTask
@@ -456,47 +453,45 @@ public class ControlGUI {
 
     public void OpenbenutzerErstellen() {
         if (worker1.getPosition() < 2) {
-            GUIBenutzerErstellen1.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(GUIBenutzerErstellen1, "Du hast nicht die befunisse dies zu tun");
+            GUIAccount1.setVisible(true);
+        }else {
+            JOptionPane.showMessageDialog(GUIAccount1, "Du hast nicht die Befugnisse dies zu tun");
         }
 
     }
 
     public void benutzerErstellen() {
         try {
-            int salary = GUIBenutzerErstellen1.getGehalt();
-            int position = GUIBenutzerErstellen1.getPosition();
-            String email = GUIBenutzerErstellen1.getEmail();
-            String name = GUIBenutzerErstellen1.getName();
-            String firstName = GUIBenutzerErstellen1.getVorname();
+            int salary = GUIAccount1.getGehalt();
+            int position = GUIAccount1.getPosition();
+            String email = GUIAccount1.getEmail();
+            String name = GUIAccount1.getLastName();
+            String firstName = GUIAccount1.getFirstName();
             if (position >= worker1.getPosition()) {
                 PasswordGenerator pg = new PasswordGenerator();
                 Worker worker = new Worker(salary, position, 0, name, firstName, email, firstName + "." + name, pg.generatePassword(12, true, true, true, true));
                 clearBenutzerGUI();
-                JOptionPane.showMessageDialog(GUIToUser1, "Your username is: " + worker.getUsername() + " Your Password is: " + worker.getPasswort() + "\nEine Email wurde ihnen zu geschickt.");
+                JOptionPane.showMessageDialog(GUIToUser1, "Dein Benutzername ist: " + worker.getUsername() + "\n Dein Passwort lautet: " + worker.getPasswort() + "\nEine Email mit diesen Informationen wurde ihnen zu geschickt.");
                 brain.sendAccountMail(worker);
-            } else {
+            }else {
                 JOptionPane.showMessageDialog(GUIToUser1, "Die Position ist höher als deine eigene");
             }
         } catch (NullPointerException pe) {
-            JOptionPane.showMessageDialog(GUIToUser1, "Bitte wähle eine position aus");
+            JOptionPane.showMessageDialog(GUIToUser1, "Bitte wähle eine Position aus");
         } catch (NumberFormatException ne) {
-            JOptionPane.showMessageDialog(GUIToUser1, "Für das Gehalt nur posetive Zahlen eintragen keine Währungszeichen");
+            JOptionPane.showMessageDialog(GUIToUser1, "Das Gehalt darf nur prositive Zahlen so wie keine Währungszeichen");
         }
     }
 
     public void clearBenutzerGUI() {
-        GUIBenutzerErstellen1.setGehalt(-1);
-        GUIBenutzerErstellen1.setEmail("");
-        GUIBenutzerErstellen1.setName("");
-        GUIBenutzerErstellen1.setVorname("");
-        GUIBenutzerErstellen1.setPosition(-1);
+        GUIAccount1.GUIAccountBenutzerClearALL();
+        GUIAccount1.setPosition(-1);
+        GUIAccount1.GUIAccountPasswordClearAll();
     }
 
     public void abbrechenBenutzer() {
         GUITaskAnsicht1.setVisible(true);
-        GUIBenutzerErstellen1.setVisible(false);
+        GUIAccount1.setVisible(false);
     }
 
     public void taskAnlegen() throws NumberFormatException {
@@ -506,10 +501,10 @@ public class ControlGUI {
         String[] recipient = GUINewTask1.getUser();
         List<Worker> workerlist = new ArrayList<>();
         List<Integer> indicesToRemove = new ArrayList<>();
-        for (int i = 0; i < recipient.length; i++) {
+        for (int i = 0; i < recipient.length; i ++) {
             workerlist.add(new Worker(recipient[i]));
             if (workerlist.get(i).getPosition() < worker1.getPosition()) {
-                JOptionPane.showMessageDialog(GUIToUser1, "Du kannst nicht " + workerlist.get(i).getUsername() + " eine Aufgabe stellen.");
+                JOptionPane.showMessageDialog(GUINewTask1, "Du kannst nicht " + workerlist.get(i).getUsername() + " eine Aufgabe stellen.");
                 indicesToRemove.add(i);
             }
         }
@@ -519,7 +514,7 @@ public class ControlGUI {
             workerlist.remove(index);
         }
 
-        if (!workerlist.isEmpty()) {
+        if ( ! workerlist.isEmpty()) {
             Task task = new Task(GUINewTask1.getZeitaufwand(), GUINewTask1.getDescription(), GUINewTask1.getSubject(), worker1.getiDWorker());
             for (Worker worker : workerlist) {
                 task.fillworkertasktable(worker.getiDWorker());
@@ -531,14 +526,14 @@ public class ControlGUI {
             GUINewTask1.resetZeitaufwand();
             setGUINewTaskInvisible();
             btnMyTaskRefresh();
-        } else {
-            JOptionPane.showMessageDialog(GUIToUser1, "Es wurden keine Arbeiter eingetragen");
+        }else {
+            JOptionPane.showMessageDialog(GUINewTask1, "Es wurden keine Arbeiter eingetragen");
         }
     }
 
     public void loadDraft() {
         Draft draft = brain.getdraft();
-        if (!(draft.getEmpfaenger() == null || draft.getBetreff() == null || draft.getBody() == null)) {
+        if ( ! ( draft.getEmpfaenger() == null || draft.getBetreff() == null || draft.getBody() == null )) {
             GUINewTask1.setUsers(draft.getEmpfaenger());
             GUINewTask1.setZeitaufwand(draft.getZeit());
             GUINewTask1.setSubject(draft.getBetreff());
@@ -547,7 +542,7 @@ public class ControlGUI {
     }
 
     public void setlstAllUsers() {
-        GUIToUser1.setlstAllUsers(brain.getAllUsersIDs().toArray(String[]::new));
+        GUIToUser1.setlstAllUsers(brain.getAllUsersIDs().toArray(String[] :: new));
         GUIToUser1.setlstSelectedUseres(brain.getAllUsersIDs(GUINewTask1.getUser()));
     }
 }

@@ -26,12 +26,9 @@ import java.util.Properties;
 import java.util.Set;
 
 import static com.google.api.services.gmail.GmailScopes.GMAIL_SEND;
-import java.io.File;
 import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
 import javax.mail.BodyPart;
 import static javax.mail.Message.RecipientType.TO;
-import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMultipart;
@@ -53,12 +50,11 @@ public class GMailer {
                 .build();
     }
 
-    private static Credential getCredentials(final NetHttpTransport httpTransport, GsonFactory jsonFactory)
+    private static Credential getCredentials( final NetHttpTransport httpTransport, GsonFactory jsonFactory )
             throws IOException {
-        String token = "/client_secret_812886324406-8m25k33f14ja13q8nd9642afk3mm16m1.apps.googleusercontent.com.json";
-        System.out.println(token);
+        String token = "/insert token here";
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory, new InputStreamReader(GMailer.class.getResourceAsStream(token)));
-        
+
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
                 httpTransport, jsonFactory, clientSecrets, Set.of(GMAIL_SEND))
                 .setDataStoreFactory(new FileDataStoreFactory(Paths.get("tokens").toFile()))
@@ -93,59 +89,54 @@ public class GMailer {
             GoogleJsonError error = e.getDetails();
             if (error.getCode() == 403) {
                 System.err.println("Unable to send message: " + e.getDetails());
-            } else {
+            }else {
                 throw e;
             }
         }
     }
 
-    public void sendMailWithAttachment(String [][] data) throws Exception {
+    public void sendMailWithAttachment( String[][] data ) throws Exception {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
-        
+
         MimeMessage email = new MimeMessage(session);
         email.setFrom(new InternetAddress(me));
         email.addRecipient(TO, new InternetAddress(toEmailAddress));
         email.setSubject(subject);
         email.setText(message);
-        
+
         String rowString = "";
         for (String[] row : data) {
-        String[] quotedValues = new String[row.length];
-            for (int i = 0; i < row.length; i++) {
-                if(row[i].contains(" ")) 
+            String[] quotedValues = new String[row.length];
+            for (int i = 0; i < row.length; i ++) {
+                if (row[i].contains(" ")) {
                     quotedValues[i] = "\"" + row[i] + "\"";  // enclose value in quotes if it contains a comma
-                else quotedValues[i] = row[i];
+                }else {
+                    quotedValues[i] = row[i];
+                }
             }
-        rowString += String.join(",", quotedValues)+ System.lineSeparator();
-        
-            }
-    // Create the message part
-            BodyPart messageBodyPart = new MimeBodyPart();
+            rowString += String.join(",", quotedValues) + System.lineSeparator();
 
-            // Fill the message
-            messageBodyPart.setText(message);
+        }
+        // Create the message part
+        BodyPart messageBodyPart = new MimeBodyPart();
 
-            // Create a multipart message
-            Multipart multipart = new MimeMultipart();
+        // Fill the message
+        messageBodyPart.setText(message);
 
-            // Set text message part
-            multipart.addBodyPart(messageBodyPart);
+        // Create a multipart message
+        Multipart multipart = new MimeMultipart();
 
-            // Part two is attachment
-            messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setDataHandler(new DataHandler(new ByteArrayDataSource(rowString.getBytes(),"text/csv")));
-            messageBodyPart.setFileName("invoice.csv");
-            multipart.addBodyPart(messageBodyPart);
-            
-            email.setContent(multipart);
+        // Set text message part
+        multipart.addBodyPart(messageBodyPart);
 
-//        MimeMultipart multipart = new MimeMultipart();
-//        MimeBodyPart messageBodyPart = new MimeBodyPart();
-//        messageBodyPart.setText(message);
-//        MimeBodyPart attachment = new MimeBodyPart();
-//        attachment.attachFile(new File("src/main/resources/invoice.csv"));
-//        multipart.addBodyPart(attachment);
+        // Part two is attachment
+        messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setDataHandler(new DataHandler(new ByteArrayDataSource(rowString.getBytes(), "text/csv")));
+        messageBodyPart.setFileName("invoice.csv");
+        multipart.addBodyPart(messageBodyPart);
+
+        email.setContent(multipart);
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         email.writeTo(buffer);
         byte[] rawMessageBytes = buffer.toByteArray();
@@ -161,54 +152,22 @@ public class GMailer {
             GoogleJsonError error = e.getDetails();
             if (error.getCode() == 403) {
                 System.err.println("Unable to send message: " + e.getDetails());
-            } else {
+            }else {
                 throw e;
             }
 
         }
     }
 
-    public static MimeMessage createEmailWithAttachment(String to, String subject, String bodyText, String filePath) throws MessagingException {
-        File file = new File(filePath);
-        Properties props = new Properties();
-        Session session = Session.getDefaultInstance(props, null);
-        MimeMessage email = new MimeMessage(session);
-        Multipart multipart = new MimeMultipart();
-        InternetAddress tAddress = new InternetAddress(to);
-        InternetAddress fAddress = new InternetAddress(me);
-        email.setFrom(fAddress);
-        email.addRecipient(javax.mail.Message.RecipientType.TO, tAddress);
-        email.setSubject(subject);
-        if (file.exists()) {
-            FileDataSource source = new FileDataSource(filePath);
-            MimeBodyPart messageFilePart = new MimeBodyPart();
-            MimeBodyPart messageBodyPart = new MimeBodyPart();
-            try {
-                messageBodyPart.setText(bodyText);
-                messageFilePart.setDataHandler(new DataHandler(source));
-                messageFilePart.setFileName(file.getName());
-
-                multipart.addBodyPart(messageBodyPart);
-                multipart.addBodyPart(messageFilePart);
-                email.setContent(multipart);
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            }
-        } else {
-            email.setText(bodyText);
-        }
-        return email;
-    }
-
-    public void setSubject(String subject) {
+    public void setSubject( String subject ) {
         this.subject = subject;
     }
 
-    public void setMessage(String message) {
+    public void setMessage( String message ) {
         this.message = message;
     }
 
-    public void setToEmailAddress(String toEmailAddress) {
+    public void setToEmailAddress( String toEmailAddress ) {
         this.toEmailAddress = toEmailAddress;
     }
 }
